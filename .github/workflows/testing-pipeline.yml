@@ -1,0 +1,20 @@
+name: Testing pipeline
+
+on:
+    pull_request:
+        branches:
+            - main
+        types: [opened, synchronize]
+    push:
+
+jobs:
+    unit_tests:
+        runs-on: ubuntu-20.04
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: '20'
+            - run: npm install
+            - name: Coveralls
+              uses: coverallsapp/github-action@v2
