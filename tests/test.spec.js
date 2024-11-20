@@ -463,4 +463,20 @@ describe('Test suite for chunk.js', () => {
     it('Test chunk with empty array', () => {
         expect(chunk([], 1)).to.be.deep.equal([]);
     });
+
+    it('chunk throws error with invalid input', () => {
+        expect(() => chunk({}, 1)).to.throw();
+    });
+
+    it('chunk throws error with non-number size', () => {
+        expect(() => chunk(twoLongArray, 'two')).to.throw();
+    });
+
+    it('Test chunk with negative size', () => {
+        expect(() => chunk(twoLongArray, -1)).to.deep.equal([]);
+    });
+
+    it('Test chunk with a non-integer size', () => {
+        expect(chunk(twoLongArray, 1.4)).to.deep.equal(twoLongArray);
+    });
 });
