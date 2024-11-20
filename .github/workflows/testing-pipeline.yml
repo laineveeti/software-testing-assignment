@@ -16,5 +16,5 @@ jobs:
               with:
                   node-version: '20'
             - run: npm install
-            - name: Coveralls
-              uses: coverallsapp/github-action@v2
+            - name: Run tests
+              run: npm run test
