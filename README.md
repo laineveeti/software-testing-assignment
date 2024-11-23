@@ -1,3 +1,7 @@
+# Coveralls badge
+
+[![Coverage Status](https://coveralls.io/repos/github/laineveeti/software-testing-assignment/badge.svg?branch=main)](https://coveralls.io/github/laineveeti/software-testing-assignment?branch=main)
+
 # Student template
 
 ## Purpose of this repository
