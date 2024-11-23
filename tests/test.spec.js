@@ -8,7 +8,7 @@ import isEmpty from '../src/isEmpty.js';
 import isObject from '../src/isObject.js';
 import toNumber from '../src/toNumber.js';
 import chunk from '../src/chunk.js';
-
+import { Buffer } from 'node:buffer';
 import { expect, assert } from 'chai';
 import sinon from 'sinon';
 
@@ -304,6 +304,10 @@ describe('Test suite for filter.js', () => {
     it('Test filter with empty array', () => {
         expect(filter([], filterName)).to.be.equal([]);
     });
+
+    it('Test filter with null array', () => {
+        expect(filter(null, filterName)).to.be.equal([]);
+    });
 });
 
 describe('Test suite for isEmpty.js', () => {
@@ -319,8 +323,23 @@ describe('Test suite for isEmpty.js', () => {
         expect(isEmpty({})).to.be.true;
     });
 
-    it('Test isEmpty with a non-empty object', () => {
-        expect(isEmpty({ name: 'carrot' })).to.be.false;
+    it('Test isEmpty with null', () => {
+        expect(isEmpty(null)).to.be.true;
+    });
+
+    it('Test isEmpty with prototype', () => {
+        expect(isEmpty(Object.prototype)).to.be.true;
+    });
+
+    it('Test isEmpty with buffer', () => {
+        const buffer = Buffer.alloc(10);
+        expect(isEmpty(buffer)).to.be.false;
+    });
+
+    it('Test isEmpty with arguments', () => {
+        (function foo(arg) {
+            expect(isEmpty(arguments)).to.be.false;
+        })('something');
     });
 
     it('Test isEmpty with a 0-length string', () => {
@@ -395,6 +414,14 @@ describe('Test suite for toNumber.js', () => {
         expect(toNumber(NaN)).to.be.NaN;
     });
 
+    it('Test toNumber with a symbol', () => {
+        expect(toNumber(Symbol())).to.be.NaN;
+    });
+
+    it('Test toNumber with a function', () => {
+        expect(toNumber(() => '')).to.be.NaN;
+    });
+
     it('Test toNumber with null', () => {
         expect(toNumber(null)).to.be.equal(0);
     });
@@ -405,6 +432,18 @@ describe('Test suite for toNumber.js', () => {
 
     it('Test toNumber with a Number object', () => {
         expect(toNumber(new Number(9))).to.be.equal(9);
+    });
+
+    it('Test toNumber with a binary value', () => {
+        expect(toNumber(0b10)).to.be.equal(2);
+    });
+
+    it('Test toNumber with a hexadecimal value', () => {
+        expect(toNumber(0xff)).to.be.equal(255);
+    });
+
+    it('Test toNumber with an octal value', () => {
+        expect(toNumber(0o10)).to.be.equal(8);
     });
 
     it('Test toNumber with a 1-length array', () => {
@@ -464,16 +503,20 @@ describe('Test suite for chunk.js', () => {
         expect(chunk([], 1)).to.be.deep.equal([]);
     });
 
-    it('chunk throws error with invalid input', () => {
-        expect(() => chunk({}, 1)).to.throw();
+    it('Test chunk with null input', () => {
+        expect(chunk(null, 1)).to.be.deep.equal([]);
     });
 
-    it('chunk throws error with non-number size', () => {
-        expect(() => chunk(twoLongArray, 'two')).to.throw();
+    it('Test chunk with invalid input', () => {
+        expect(chunk({}, 1)).to.be.deep.equal([]);
+    });
+
+    it('Test chunk with invalid size', () => {
+        expect(chunk(twoLongArray, 'two')).to.be.deep.equal([]);
     });
 
     it('Test chunk with negative size', () => {
-        expect(() => chunk(twoLongArray, -1)).to.deep.equal([]);
+        expect(chunk(twoLongArray, -1)).to.deep.equal([]);
     });
 
     it('Test chunk with a non-integer size', () => {
