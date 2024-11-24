@@ -14,19 +14,19 @@ import sinon from 'sinon';
 
 describe('Test suite for upperFirst.js', function () {
     it('Test with lower case string', () => {
-        expect(upperFirst('test')).to.be.equal('Test');
+        expect(upperFirst('chicken')).to.be.equal('chicken');
     });
 
     it('Test with upper case string', () => {
-        expect(upperFirst('TEST')).to.be.equal('TEST');
+        expect(upperFirst('CHICKEN')).to.be.equal('CHICKEN');
     });
 
     it('Test two words without unicode characters', () => {
-        expect(upperFirst('hello world')).to.be.equal('Hello world');
+        expect(upperFirst('chicken 100 grams')).to.be.equal('Chicken 100 grams');
     });
 
     it('Test two words with unicode characters', () => {
-        expect(upperFirst('äivää maailma')).to.be.equal('Äivää maailma');
+        expect(upperFirst('äätelöä tässä')).to.be.equal('Äätelöä tässä');
     });
 
     it('Test with null', () => {
@@ -357,6 +357,12 @@ describe('Test suite for isEmpty.js', () => {
     it('Test isEmpty with a non-empty set', () => {
         expect(isEmpty(new Set(['product']))).to.be.false;
     });
+
+    it('Test isEmpty with property', () => {
+        const obj = {};
+        obj.val = 10;
+        expect(isEmpty(obj)).to.be.false;
+    });
 });
 
 describe('Test suite for isObject.js', () => {
@@ -434,16 +440,36 @@ describe('Test suite for toNumber.js', () => {
         expect(toNumber(new Number(9))).to.be.equal(9);
     });
 
+    it('Test toNumber with a Number object zero', () => {
+        expect(toNumber(new Number(0))).to.be.equal(0);
+    });
+
+    it('Test toNumber with an object having valueOf', () => {
+        expect(toNumber({valueOf: 10})).to.be.NaN;
+    });
+
     it('Test toNumber with a binary value', () => {
         expect(toNumber(0b10)).to.be.equal(2);
+    });
+
+    it('Test toNumber with a string binary value', () => {
+        expect(toNumber("0b10")).to.be.equal(2);
     });
 
     it('Test toNumber with a hexadecimal value', () => {
         expect(toNumber(0xff)).to.be.equal(255);
     });
 
+    it('Test toNumber with string hexadecimal with a sign', () => {
+        expect(toNumber("-0xff")).to.be.NaN;
+    });
+
     it('Test toNumber with an octal value', () => {
         expect(toNumber(0o10)).to.be.equal(8);
+    });
+
+    it('Test toNumber with a string octal value', () => {
+        expect(toNumber("0o10")).to.be.equal(8);
     });
 
     it('Test toNumber with a 1-length array', () => {
