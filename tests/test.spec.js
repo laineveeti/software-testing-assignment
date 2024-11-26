@@ -14,7 +14,7 @@ import sinon from 'sinon';
 
 describe('Test suite for upperFirst.js', function () {
     it('Test with lower case string', () => {
-        expect(upperFirst('chicken')).to.be.equal('chicken');
+        expect(upperFirst('chicken')).to.be.equal('Chicken');
     });
 
     it('Test with upper case string', () => {
