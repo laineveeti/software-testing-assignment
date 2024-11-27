@@ -22,7 +22,9 @@ describe('Test suite for upperFirst.js', function () {
     });
 
     it('Test two words without unicode characters', () => {
-        expect(upperFirst('chicken 100 grams')).to.be.equal('Chicken 100 grams');
+        expect(upperFirst('chicken 100 grams')).to.be.equal(
+            'Chicken 100 grams'
+        );
     });
 
     it('Test two words with unicode characters', () => {
@@ -308,6 +310,12 @@ describe('Test suite for filter.js', () => {
     it('Test filter with null array', () => {
         expect(filter(null, filterName)).to.be.equal([]);
     });
+
+    it('Test filter with predicate returning no items', () => {
+        expect(
+            filter(testArray, (value) => value.name === 'Tomato')
+        ).to.be.equal([]);
+    });
 });
 
 describe('Test suite for isEmpty.js', () => {
@@ -445,7 +453,7 @@ describe('Test suite for toNumber.js', () => {
     });
 
     it('Test toNumber with an object having valueOf', () => {
-        expect(toNumber({valueOf: 10})).to.be.NaN;
+        expect(toNumber({ valueOf: 10 })).to.be.NaN;
     });
 
     it('Test toNumber with a binary value', () => {
@@ -453,7 +461,7 @@ describe('Test suite for toNumber.js', () => {
     });
 
     it('Test toNumber with a string binary value', () => {
-        expect(toNumber("0b10")).to.be.equal(2);
+        expect(toNumber('0b10')).to.be.equal(2);
     });
 
     it('Test toNumber with a hexadecimal value', () => {
@@ -461,7 +469,7 @@ describe('Test suite for toNumber.js', () => {
     });
 
     it('Test toNumber with string hexadecimal with a sign', () => {
-        expect(toNumber("-0xff")).to.be.NaN;
+        expect(toNumber('-0xff')).to.be.NaN;
     });
 
     it('Test toNumber with an octal value', () => {
@@ -469,7 +477,7 @@ describe('Test suite for toNumber.js', () => {
     });
 
     it('Test toNumber with a string octal value', () => {
-        expect(toNumber("0o10")).to.be.equal(8);
+        expect(toNumber('0o10')).to.be.equal(8);
     });
 
     it('Test toNumber with a 1-length array', () => {
